@@ -70,4 +70,45 @@ def savename():
 
     SERVER.send(player_name.encode())
 
+def createTicket():
+    global game_window 
+    global ticket_grid
+
+    mainlabel= Label(game_window,width=65, heigh=16,relief='ridge',borderwidth=5,bg='white')
+    mainlabel.place(x=95,y=119)
+
+    xpos=105
+    ypos=130
+    for row in range(0,3):
+        rowlist=[]
+        for col in range(0,9):
+            if (platform.system()=='Darwin'):
+                boxbutton=Button(game_window,font=('Chalkboard SE',18),borderwidth=3,pady=23,padx=22,bg='#fff176',highlightbackground='#fff176',activebackground='@c5ela5')
+
+                boxbutton.place(x=xpos,y=ypos)
+            else:
+                boxbutton=tk.Button(game_window,font=('Chalkboard SE',30),width=3,heigh=2,borderwidth=5,bg='#fff176')
+                boxbutton.place(x=xpos,y=ypos)
+
+            row.appned(boxbutton)
+            xpos+=64
+
+    ticket_grid.append(rowlist)
+    xpos=105
+    ypos+=82
+
+def placeNumbers():
+    global ticket_grid
+    global current_number_list
+
+    for row in range(0,3):
+        random_col_list=[]
+        counter=0
+
+        while counter<=4:
+            random_col=random.randint(0,8)
+            if (random_col not in random_col_list):
+                random_col_list.append(random_col)
+                counter+=1
+
 setup()
