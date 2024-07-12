@@ -136,4 +136,21 @@ def placeNumbers():
                 random_col_list.append(random_col)
                 counter+=1
 
+def recivedMsg():
+    global SERVER
+    global displayedNumberList 
+    global flashNumberLabel 
+    global canvas2
+    global gameOver
+    
+    numbers = [str(i) for i in range(1, 91)]
+    while True:
+        chunk = SERVER. recv (2048).decode()
+        if (chunk in numbers and flashNumberLabel and not gameOver):
+            flashNumberList.append(int (chunk))
+            canvas2.itemconfigure(flashNumberLabel, text = chunk, font = ('Chalkboard SE', 60)) 
+        elif('wins the game.' in chunk):
+            gameOver= True
+            canvas2.itemconfigure(flashNumberLabel, text = chunk, font = ('Chalkboard SE', 40))
+
 setup()
