@@ -111,5 +111,53 @@ def stop():
     mixer.music.pause()
     infoLabel.configure(text="")
     
+def browseFiles():
+    global listbox
+    global song_counter
+    global filePathLabel
+
+    try:
+        filename=filedialog.askopenfilename()
+        HOSTNAME='127.0.0.1'
+        USERNAME='lftpd'
+        PASSWORD='lftpd'
+
+        ftp_server = ftplib.FTP(HOSTNAME, USERNAME, PASSWORD)
+        ftp_server.encoding = "utf-8"
+        ftp_server.cwd('shared_files')
+        fname=ntpath.basename(filename)
+        with open(filename, 'rb') as file:
+            ftp_server.storbinary(f"STOR {fname}", file)
+
+    
+    except FileNotFoundError:
+        print("Cancle Button Pressed")
+
+def download():
+    #textarea.insert (END, "\n"+"\nPlease wait file is downloading.... ") 
+    #textarea.see ("end")
+    
+    song_to_download=listbox.get(ANCHOR)
+    infoLabel.configure(text="Downloading "+ song_to_download)
+    HOSTNAME="127.0.0.1"
+    USERNAME="lftpd
+    PASSWORD="lftpd"
+    home=str(Path.home())
+    download_path=home+"/Downloads"
+    ftp_server=ftplib.FTP(HOSTNAME, USERNAME, PASSWORD) 
+    ftp_server.encoding="utf-8"
+    ftp_server.cwd('shared_files')
+    local filename=os.path.join(download_path, song_to_download) 
+    file=open(local_filename, 'wb')
+    ftp_server.retrbinary('RETR'+song_to_download,file.write)
+    ftp_server.dir()
+    file.close()
+    ftp_server.quit()
+    infoLabel.configure(text="Download Complete")
+    time.sleep(1)
+    if (song_selected != ""):
+        infoLabel.configure (text="Now Playing" +song_selected)
+    else:
+        infoLabel.configure (text="")
 
 setup()
